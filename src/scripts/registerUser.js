@@ -50,6 +50,7 @@ form.addEventListener("submit", function (event) {
 
 // Create order after user registration
 // Create order after user registration
+// Create order after user registration
 function createOrder(userId) {
   const data = { user_id: userId, items: [] }; // Empty array for items initially
 
@@ -69,6 +70,10 @@ function createOrder(userId) {
         // ✅ Save orderId to localStorage after successful order creation
         localStorage.setItem("orderId", order.orderId);
         console.log("Order ID saved in localStorage:", order.orderId);
+
+        // Clear the addedProducts in localStorage
+        localStorage.removeItem("addedProducts");
+
         // ✅ Redirect to products page after successful order creation
         window.location.href = "../pages/products.html";
       } else {
