@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AirBean Frontend</title>
+    <link rel="stylesheet" href="/public/src/css/styles.css" />
+  </head>
+  <body>
+    <main>
+      <section id="order-confirmation">
+        <h1 id="logo">AirBean.</h1>
+        <br />
+        <br />
+        <h2>Din beställning har skickats. &#9989;</h2>
+        <br />
+        <p>(Om det var på riktigt det vill säga.)</p>
+        <br />
+        <br />
+        <p>Order id: <span id="order-id"></span></p>
+        <br />
+        <br />
+        <br />    
+        <br />
+
+        <h3 id="what-has-happened" onclick="showExplanation()">Så vad här hänt i koden?</h3>
+        <br />
+        <article id="confirmation-page-explanation">
+        <p>
+         <b>Först skapar användaren ett beställnings-id med sina uppgifter:</b> 
+          <br /> <br />
+          <ul style="position: relative; left: 2vw;line-height: 2.5vh;">
+            <li>name</li>
+            <li>email</li>
+            <li>address</li>
+            <ul>
+            <li>user_id</li>
+            <li>order_id (Beställnings-id:et)</li>
+
+          </ul>
+          </ul>
+          <br />
+          <i>(user_id och order_id skapas automatiskt utan input ifrån användaren) </i>
+        </p>
+        <br />
+        <br />
+        <b>Sedan läggs produkterna in i beställnings-id:et:</b> 
+        <br /> <br />
+        <ul style="position: relative; left: 2vw;line-height: 2.5vh;">
+          <li>product_id</li>
+          <li>quantity</li>
+          <li>price</li>
+        </ul>
+      </p>
+      <br />
+      Samtliga uppgifter finns nu i beställnings-id:et, som sedan kan skickas vidare som en fullbordad beställning.
+      <br />
+      <br />
+      <p> 
+        <b>Prova själv: </b> Du kan hitta din beställning om du söker i webbläsaren /api/order/  [order id]
+      </p>
+    </article>
+
+      </section>
+      <p
+      style="
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        font-size: 1rem;
+      "
+    >
+      <i
+        >Hemsida skapad av
+        <a href="https://github.com/williamwestergard" target="_blank"
+          >William
+        </a></i
+      >
+    </p>
+    </main>
+    <script>
+      function showExplanation() {
+        document.getElementById("confirmation-page-explanation").style.display="block";
+      }
+    </script>
+    <script src="/public/src/scripts/orderConfirmation.js"></script>
+  </body>
+</html>
