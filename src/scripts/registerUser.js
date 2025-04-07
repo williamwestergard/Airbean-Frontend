@@ -70,7 +70,7 @@ function createOrder(userId) {
         localStorage.setItem("orderId", order.orderId);
         console.log("Order ID saved in localStorage:", order.orderId);
         // ✅ Redirect to products page after successful order creation
-        window.location.href = "/public/src/pages/products.html";
+        window.location.href = "../pages/products.html";
       } else {
         alert("Något gick fel vid skapandet av beställningen.");
       }
