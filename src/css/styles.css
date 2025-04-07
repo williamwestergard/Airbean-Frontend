@@ -195,3 +195,18 @@ button:hover {
 #confirmation-page-explanation {
   display: none;
 }
+
+.product-info-order-button {
+  background-color: rgb(53, 53, 53);
+  color: white;
+}
+.product-info-order-button:hover {
+  background-color: rgb(39, 39, 39);
+}
+
+.remove-btn {
+  background-color: rgb(230, 60, 82);
+}
+.remove-btn:hover {
+  background-color: rgb(223, 56, 78);
+}

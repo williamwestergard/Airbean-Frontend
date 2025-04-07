@@ -1,5 +1,21 @@
 let orderId = localStorage.getItem("orderId"); // ✅ Load orderId at the top
 
+// ✅ Track added product IDs from localStorage
+const addedProducts = new Set(
+  JSON.parse(localStorage.getItem("addedProducts")) || []
+);
+
+// Function to update the button state in localStorage
+function updateButtonState(productId, isAdded) {
+  if (isAdded) {
+    addedProducts.add(productId);
+  } else {
+    addedProducts.delete(productId);
+  }
+  localStorage.setItem("addedProducts", JSON.stringify([...addedProducts]));
+}
+
+// Fetch products and update UI
 fetch("https://airbean-backend-k7pq.onrender.com/api/products")
   .then((response) => response.json())
   .then((data) => {
@@ -28,42 +44,88 @@ fetch("https://airbean-backend-k7pq.onrender.com/api/products")
       price.classList.add("product-info-price");
       price.textContent = `${product.price} kr`;
 
-      const button = document.createElement("button");
-      button.type = "button"; // 👈 prevents form submit
-      button.classList.add("product-info-order-button");
-      button.textContent = `Lägg till`;
+      const toggleButton = document.createElement("button");
+      toggleButton.type = "button";
+      toggleButton.classList.add("product-info-order-button");
 
-      button.addEventListener("click", async (e) => {
-        e.preventDefault(); // 👈 prevents form submission if inside a <form>
-        e.stopPropagation(); // 👈 extra safe
+      // Set button text and style based on localStorage data
+      if (addedProducts.has(product.id)) {
+        toggleButton.textContent = "Ta bort";
+        toggleButton.classList.add("remove-btn");
+      } else {
+        toggleButton.textContent = "Lägg till";
+        toggleButton.classList.add("add-btn");
+      }
 
-        await createOrderIfNotExists(); // ensure order exists first
+      toggleButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-        fetch(
-          `https://airbean-backend-k7pq.onrender.com/api/order/${orderId}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              product_id: product.id,
-              quantity: 1,
-            }),
+        await createOrderIfNotExists();
+
+        const isAdded = addedProducts.has(product.id);
+
+        if (!isAdded) {
+          // ➕ Lägg till produkt
+          try {
+            const res = await fetch(
+              `https://airbean-backend-k7pq.onrender.com/api/order/${orderId}`,
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  product_id: product.id,
+                  quantity: 1,
+                }),
+              }
+            );
+
+            if (!res.ok) throw new Error("Fel vid tillägg");
+
+            const updatedOrder = await res.json();
+            console.log("Produkt tillagd:", updatedOrder);
+
+            // Update localStorage
+            updateButtonState(product.id, true);
+            toggleButton.textContent = "Ta bort";
+            toggleButton.classList.add("remove-btn");
+            toggleButton.classList.remove("add-btn");
+          } catch (error) {
+            console.error("Fel vid tillägg av produkt:", error);
           }
-        )
-          .then((res) => res.json())
-          .then((updatedOrder) => {
-            console.log("Product added to order:", updatedOrder);
-            alert(`${product.title} lades till i din beställning!`);
-          })
-          .catch((error) =>
-            console.error("Fel vid tillägg av produkt:", error)
-          );
+        } else {
+          // ❌ Ta bort produkt
+          try {
+            const res = await fetch(
+              `https://airbean-backend-k7pq.onrender.com/api/order/${orderId}/product/${product.id}`,
+              {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (!res.ok) throw new Error("Fel vid borttagning");
+
+            const updatedOrder = await res.json();
+            console.log("Produkt borttagen:", updatedOrder);
+
+            // Update localStorage
+            updateButtonState(product.id, false);
+            toggleButton.textContent = "Lägg till";
+            toggleButton.classList.add("add-btn");
+            toggleButton.classList.remove("remove-btn");
+          } catch (error) {
+            console.error("Fel vid borttagning av produkt:", error);
+          }
+        }
       });
 
       productInfoLowerRow.appendChild(price);
-      productInfoLowerRow.appendChild(button);
+      productInfoLowerRow.appendChild(toggleButton);
 
       productSection.appendChild(productInfoUpperRow);
       productSection.appendChild(productInfoLowerRow);
@@ -75,9 +137,9 @@ fetch("https://airbean-backend-k7pq.onrender.com/api/products")
 
 // ✅ Create an order if not already stored
 async function createOrderIfNotExists() {
-  console.log("Checking if order exists..."); // Add this log
+  console.log("Checking if order exists...");
   if (!orderId) {
-    console.log("No orderId found, creating a new order..."); // Add this log
+    console.log("No orderId found, creating a new order...");
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -85,5 +147,61 @@ async function createOrderIfNotExists() {
       alert("Användare saknas. Logga in eller registrera dig först.");
       return;
     }
+
+    // Create a new order and reset the added products state in localStorage
+    const newOrderResponse = await fetch(
+      "https://airbean-backend-k7pq.onrender.com/api/order",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_id: user.id }),
+      }
+    );
+
+    if (!newOrderResponse.ok) {
+      alert("Något gick fel vid skapandet av beställning.");
+      return;
+    }
+
+    const newOrder = await newOrderResponse.json();
+    orderId = newOrder.id;
+    localStorage.setItem("orderId", orderId);
+
+    // Reset the added products state when a new order is created
+    localStorage.removeItem("addedProducts");
+
+    // Re-initialize the addedProducts set to an empty set
+    addedProducts.clear();
   }
+}
+window.addEventListener("load", function () {
+  // Call the function to refresh the button states on the products page
+  refreshButtonStates();
+});
+
+// Function to manually refresh button states based on `addedProducts`
+function refreshButtonStates() {
+  const addedProducts = new Set(
+    JSON.parse(localStorage.getItem("addedProducts")) || []
+  );
+  const productList = document.getElementById("product-list-container");
+
+  if (!productList) return;
+
+  const buttons = productList.querySelectorAll("button");
+  buttons.forEach((button) => {
+    const productId = button.closest(".product-item-container").dataset
+      .productId;
+    if (addedProducts.has(Number(productId))) {
+      button.textContent = "Ta bort";
+      button.classList.add("remove-btn");
+      button.classList.remove("add-btn");
+    } else {
+      button.textContent = "Lägg till";
+      button.classList.add("add-btn");
+      button.classList.remove("remove-btn");
+    }
+  });
 }
