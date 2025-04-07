@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AirBean Frontend</title>
+    <link rel="stylesheet" href="public/src/css/styles.css" />
+  </head>
+  <body>
+    <main>
+      <section id="intro">
+        <h1 style="margin-bottom: -0.5vh" id="logo">AirBean.</h1>
+        <h4 style="margin-bottom: 0.3vh">Ett backendserver-projekt</h4>
+        <p>Express.js - node.js - sqlite3</p>
+        <br />
+        <br />
+        <br />
+        <h2 style="margin-bottom: 1.2vh">Om projektet</h2>
+        <p style="line-height: 2.5vh">
+          AirBean är ett företag som låter kunder beställa kaffe hem till dörren
+          via drönare.
+        </p>
+        <p>Vilken lyx! Om det nu bara fanns på riktigt...</p>
+        <br />
+        <p style="line-height: 2.5vh">
+          Den här hemsidan är resultatet av ett grupprojekt där vi skapade en
+          backend-server <br />
+          till ett fiktivt företag. Följ instruktionerna för att göra en
+          "beställning" till AirBean. <br />
+        </p>
+        <br />
+        <br />
+        <p style="line-height: 2.5vh">
+          All information finns antingen i vår databas, eller skapas och skickas
+          till den.
+        </p>
+        <p style="line-height: 2.5vh">
+          Informationen används sedan för att göra beställningen.
+        </p>
+        <br />
+        <br />
+        <br />
+        <h4 style="margin-bottom: 1vh">Projektets medlemmar:</h4>
+        <p>
+          <a href="https://github.com/AmandaT98" target="_blank">Amanda</a> -
+          <a href="https://github.com/Dannoren" target="_blank">Daniel</a> -
+          <a href="https://github.com/GentianaBR" target="_blank">Gentiana</a> -
+          <a href="https://github.com/Hassecodes" target="_blank">Hassan</a> -
+          <a href="https://github.com/MattiasWaern" target="_blank">Mattias</a>
+          -
+          <a href="https://github.com/williamwestergard" target="_blank"
+            >William
+          </a>
+        </p>
+        <br />
+        <br />
+
+        <button id="next-button" onclick="goToProducts()">Gå vidare</button>
+      </section>
+
+      <p style="position: absolute; bottom: 30px; right: 30px; font-size: 1rem">
+        <i
+          >Hemsida skapad av
+          <a href="https://github.com/williamwestergard" target="_blank"
+            >William
+          </a></i
+        >
+      </p>
+    </main>
+    <script>
+      function goToProducts() {
+        window.location.href = "/public/src/pages/userInformation.html";
+      }
+    </script>
+  </body>
+</html>
