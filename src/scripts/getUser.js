@@ -10,7 +10,7 @@ if (storedUser) {
 
 // ✅ Fetch and display products + total price
 if (orderId) {
-  fetch(`http://localhost:4001/api/order/${orderId}`)
+  fetch(`https://airbean-backend-k7pq.onrender.com/api/order/${orderId}`)
     .then((res) => res.json())
     .then((order) => {
       console.log("Fetched order:", order);
@@ -25,7 +25,9 @@ if (orderId) {
 
         // Fetch product details for each item in the order
         const productPromises = order.items.map((item) => {
-          return fetch(`http://localhost:4001/api/products/${item.product_id}`)
+          return fetch(
+            `https://airbean-backend-k7pq.onrender.com/api/products/${item.product_id}`
+          )
             .then((res) => res.json())
             .then((product) => {
               const title = product.title || "Okänd produkt"; // Use product title

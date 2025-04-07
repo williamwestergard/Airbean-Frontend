@@ -1,6 +1,6 @@
 let orderId = localStorage.getItem("orderId"); // ✅ Load orderId at the top
 
-fetch("http://localhost:4001/api/products")
+fetch("https://airbean-backend-k7pq.onrender.com/api/products")
   .then((response) => response.json())
   .then((data) => {
     const productList = document.getElementById("product-list-container");
@@ -39,16 +39,19 @@ fetch("http://localhost:4001/api/products")
 
         await createOrderIfNotExists(); // ensure order exists first
 
-        fetch(`http://localhost:4001/api/order/${orderId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            product_id: product.id,
-            quantity: 1,
-          }),
-        })
+        fetch(
+          `https://airbean-backend-k7pq.onrender.com/api/order/${orderId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              product_id: product.id,
+              quantity: 1,
+            }),
+          }
+        )
           .then((res) => res.json())
           .then((updatedOrder) => {
             console.log("Product added to order:", updatedOrder);

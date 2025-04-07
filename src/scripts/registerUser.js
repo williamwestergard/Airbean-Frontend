@@ -23,7 +23,7 @@ form.addEventListener("submit", function (event) {
   const data = { name, email, address };
 
   // Submit to backend
-  fetch("http://localhost:4001/api/user/createUser", {
+  fetch("https://airbean-backend-k7pq.onrender.com/api/user/createUser", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -55,7 +55,7 @@ function createOrder(userId) {
 
   console.log("Creating order with data:", data);
 
-  fetch("http://localhost:4001/api/order", {
+  fetch("https://airbean-backend-k7pq.onrender.com/api/order", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
