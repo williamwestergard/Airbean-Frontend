@@ -2,7 +2,7 @@
 
 ## Om projektet
 
-Den här sidan är resultatet av ett grupprojekt där vi skapade en backend-server
+Den här sidan är resultatet av ett KYH grupprojekt där vi skapade en backend-server
 till det fiktiva företaget AirBean.
 
 https://williamwestergard.github.io/Airbean-Frontend/
