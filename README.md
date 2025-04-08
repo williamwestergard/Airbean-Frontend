@@ -5,7 +5,7 @@
 AirBean är ett företag som låter kunder beställa kaffe hem till dörren via drönare.
 Vilken lyx! Om det nu bara fanns på riktigt...
 
-Det här repot är resultatet av ett grupprojekt där vi skapade en backend-server
+Det här hemsidan är resultatet av ett grupprojekt där vi skapade en backend-server
 till ett fiktivt företag.
 
 Vi har använt oss av:
