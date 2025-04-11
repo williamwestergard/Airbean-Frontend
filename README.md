@@ -2,11 +2,9 @@
 
 ## Om projektet
 
-AirBean är ett företag som låter kunder beställa kaffe hem till dörren via drönare.
-Vilken lyx! Om det nu bara fanns på riktigt.
+Den här sidan är resultatet av ett KYH grupprojekt där vi skapade en backend-server till det fiktiva företaget AirBean.
 
-Det här repot är resultatet av ett grupprojekt där vi skapade en backend-server
-till ett fiktivt företag.
+https://williamwestergard.github.io/Airbean-Frontend/
 
 Vi har använt oss av:
 - express.js
@@ -70,14 +68,3 @@ Lägg till produkt i beställningen
 
 ### DELETE /order/:orderId/product/productId
 Ta bort produkt i beställningen
-
-
-
-<br>
-
-### Websockets:
-En del av vår gruppuppgift var att diskutera om hur vi skulle kunna ha använt websockets i projektet.
-Främst tänker vi att vi skulle ha en chatt-funktion där kunden kan prata med en kundservice.
-
-Kunden skulle kunna få hjälp att ta bort beställningar som kunden inser att hen har skrivit in fel uppgifter för.
-Hen skulle också kunna få hjälp att spåra paket som inte har anlänt än.
